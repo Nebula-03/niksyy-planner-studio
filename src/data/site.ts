@@ -16,13 +16,13 @@ export const site = {
   heroText: "niksyy is a creative designer sharing Pins, boards and handmade digital products on Pinterest.",
 
   /** Your receiving email. Leave "" until you add it — the form shows a setup note. */
-  contactEmail: "",
+  contactEmail: "niksyy.myshop@gmail.com",
 
-  /** About section — neutral placeholders; replace with your own words. */
+  /** About section — edit this copy any time. */
   aboutTitle: "Hi, I'm niksyy",
   about: [
-    "[Edit me] A creative designer and maker of digital products. Write a sentence or two about your style and what inspires you.",
-    "[Edit me] Share what you love to design and the kinds of Pins and boards you curate.",
+    "I create thoughtful digital planners and printable tools with calm layouts, soft botanical details, and practical everyday structure.",
+    "I also share Pinterest inspiration, planner previews, and new designs for people who enjoy making life feel a little more organized.",
   ],
 };
 
