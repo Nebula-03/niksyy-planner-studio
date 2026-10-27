@@ -225,63 +225,22 @@ function ProductModal({ p, onClose }: { p: Product | null; onClose: () => void }
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
-  const configured = !!site.contactEmail;
   return (
-    <section id="contact" aria-labelledby="contact-h" className="relative mx-auto max-w-5xl px-5 py-24 grid gap-10 md:grid-cols-[1fr_1.3fr]">
+    <section id="contact" aria-labelledby="contact-h" className="relative mx-auto max-w-5xl px-5 py-24">
       <div>
-        <p className="font-hand text-2xl text-muted-foreground">say hello</p>
+        <p className="font-hand text-2xl text-muted-foreground">find me on Pinterest</p>
         <h2 id="contact-h" className="text-4xl md:text-5xl font-semibold">Contact</h2>
-        <p className="mt-4 text-muted-foreground">Follow along on Pinterest or browse the store.</p>
-        <a href={site.pinterestUrl} target="_blank" rel="noopener noreferrer" className="relative mt-6 block max-w-xs paper-card p-4 transition-transform hover:-translate-y-1">
-          <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-[-3deg]" aria-hidden />
-          <Sprig className="pointer-events-none absolute -right-8 -bottom-6 h-24 text-sage opacity-70" />
-          <img src={portrait.url} alt="niksyy's Pinterest profile picture" className="w-full rounded-full" />
-          <span className="mt-4 flex items-center gap-3">
-            <img src={portrait.url} alt="" className="size-10 rounded-full object-cover ring-2 ring-sage" />
-            <span>
-              <span className="block font-semibold">niksyy on Pinterest</span>
-              <span className="text-sm text-muted-foreground">@niksyymyshop</span>
-            </span>
-          </span>
-          <span className="mt-4 block rounded-md bg-primary py-2 text-center font-semibold text-primary-foreground">Follow on Pinterest ↗</span>
-        </a>
-        <a className="mt-5 inline-block font-semibold underline underline-offset-4" href={site.gumroadUrl} target="_blank" rel="noopener noreferrer">Gumroad store ↗</a>
+        <p className="mt-4 text-muted-foreground">Scan my Pinterest Pincode to visit my profile.</p>
       </div>
-      <form
-        className="relative paper-card p-6 md:p-8 space-y-4 self-start"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!configured) return;
-          const f = new FormData(e.currentTarget);
-          const body = `From: ${f.get("name")} <${f.get("email")}>\n\n${f.get("message")}`;
-          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("Hello niksyy")}&body=${encodeURIComponent(body)}`;
-          setSent(true);
-        }}
-      >
-        <span className="tape -top-3 right-10 rotate-[5deg]" aria-hidden />
-        {!configured && (
-          <p role="note" className="rounded-md border-l-4 border-accent bg-muted p-3 text-sm">
-            Setup note: the contact email hasn't been added yet, so messages can't be sent.
-          </p>
-        )}
-        {[["name", "Name", "text"], ["email", "Email", "email"]].map(([id, l, t]) => (
-          <div key={id}>
-            <label htmlFor={id} className="block text-sm font-semibold">{l}</label>
-            <input id={id} name={id} type={t} required maxLength={200} className="mt-1 w-full rounded-md border bg-background px-3 py-2" />
-          </div>
-        ))}
-        <div>
-          <label htmlFor="message" className="block text-sm font-semibold">Message</label>
-          <textarea id="message" name="message" required rows={5} maxLength={2000} className="mt-1 w-full rounded-md border bg-background px-3 py-2" />
-        </div>
-        <Button variant="hero" size="lg" type="submit" disabled={!configured}>Send message</Button>
-        {sent && <p aria-live="polite" className="text-sm">Your email app should open with the message ready to send.</p>}
-      </form>
+      <a href={site.pinterestUrl} target="_blank" rel="noopener noreferrer" aria-label="Open niksyy's Pinterest profile" className="relative mt-6 block w-fit max-w-full paper-card p-4 transition-transform hover:-translate-y-1">
+        <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-[-3deg]" aria-hidden />
+        <Sprig className="pointer-events-none absolute -right-8 -bottom-6 h-24 text-sage opacity-70" />
+        <img src="/pinterest-pincode.png" alt="Pinterest Pincode for niksyy's profile, scan with the Pinterest app" className="block w-[min(20rem,75vw)] rounded-md" />
+        <span className="mt-3 block text-center text-sm font-medium text-muted-foreground">@niksyymyshop · Visit my Pinterest profile ↗</span>
+      </a>
     </section>
   );
 }
-
 function Index() {
   const [active, setActive] = useState<Product | null>(null);
   return (

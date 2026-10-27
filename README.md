@@ -112,11 +112,7 @@ Start with these known public listings; make names, prices, descriptions, and im
 
 5. CONTACT
 
-- Add a simple contact form with name, email, and message.
-
-- Do not invent my email address. Make the receiving email configurable in settings and show a clear setup note until I add it.
-
-- Add a Pinterest profile link and Gumroad store link.
+- Show my Pinterest Pincode and link to my Pinterest profile; do not include a contact form or email messaging.
 
 TECHNICAL / QUALITY
 

@@ -1,5 +1,5 @@
 /**
- * SITE SETTINGS — edit titles, About text, contact settings, categories,
+ * SITE SETTINGS — edit titles, About text, categories,
  * and manual Pins/boards here. No component code needs to change.
  */
 export const site = {
@@ -14,9 +14,6 @@ export const site = {
   heroKicker: "a designer's pinboard ✿",
   heroTitle: "Little things, beautifully made.",
   heroText: "niksyy is a creative designer sharing Pins, boards and handmade digital products on Pinterest.",
-
-  /** Your receiving email. Leave "" until you add it — the form shows a setup note. */
-  contactEmail: "niksyy.myshop@gmail.com",
 
   /** About section — edit this copy any time. */
   aboutTitle: "Hi, I'm niksyy",

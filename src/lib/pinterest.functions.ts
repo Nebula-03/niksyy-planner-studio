@@ -20,7 +20,7 @@ const API = "https://api.pinterest.com/v5";
 
 // Server-only: reads a read-scoped token (pins:read, user_accounts:read) from env.
 export const getTopPins = createServerFn({ method: "GET" })
-  .inputValidator(z.object({ limit: z.number().int().min(1).max(24), days: z.number().int().min(7).max(90) }))
+  .validator(z.object({ limit: z.number().int().min(1).max(24), days: z.number().int().min(7).max(90) }))
   .handler(async ({ data }): Promise<PinsResult> => {
     const token = process.env["PINTEREST_ACCESS_TOKEN"];
     if (!token) return { status: "disconnected" };
