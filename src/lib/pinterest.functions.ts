@@ -22,7 +22,7 @@ const API = "https://api.pinterest.com/v5";
 export const getTopPins = createServerFn({ method: "GET" })
   .inputValidator(z.object({ limit: z.number().int().min(1).max(24), days: z.number().int().min(7).max(90) }))
   .handler(async ({ data }): Promise<PinsResult> => {
-    const token = process.env.PINTEREST_ACCESS_TOKEN;
+    const token = process.env["PINTEREST_ACCESS_TOKEN"];
     if (!token) return { status: "disconnected" };
     const headers = { Authorization: `Bearer ${token}` };
     try {
@@ -39,7 +39,7 @@ export const getTopPins = createServerFn({ method: "GET" })
             `${API}/pins/${p.id}/analytics?start_date=${fmt(start)}&end_date=${fmt(end)}&metric_types=IMPRESSION,OUTBOUND_CLICK,SAVE`,
             { headers },
           );
-          if (a.ok) m = (await a.json())?.all?.lifetime_metrics ?? (await Promise.resolve({}));
+          if (a.ok) m = (await a.json())?.all?.lifetime_metrics;
           const img = p.media?.images?.["600x"]?.url ?? p.media?.images?.["400x300"]?.url ?? "";
           return {
             id: p.id,
