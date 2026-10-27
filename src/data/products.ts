@@ -1,3 +1,5 @@
+import type { CategoryId } from "./site";
+
 /**
  * PRODUCTS — the single source of truth for the Products section.
  *
@@ -21,12 +23,15 @@ export type Product = {
   url: string;
   image: string;
   order: number;
+  /** Which Products heading this sits under (see categories in site.ts). */
+  category: CategoryId;
   hidden?: boolean;
 };
 
 export const products: Product[] = [
   {
     id: "paycheck-spreadsheet-2027",
+    category: "paycheck",
     name: "2027 Full-Year Paycheck Budget Spreadsheet",
     short: "Map paydays, plan bills and track monthly spending through 2027.",
     details:
@@ -39,6 +44,7 @@ export const products: Product[] = [
   },
   {
     id: "paycheck-printable-2027",
+    category: "paycheck",
     name: "2027 Full-Year Paycheck Budget Planner",
     short: "Plan your money month by month with printable pages.",
     details:
@@ -51,6 +57,7 @@ export const products: Product[] = [
   },
   {
     id: "first-paycheck-free",
+    category: "paycheck",
     name: "First Paycheck Budget Planner PDF",
     short: "A free 11-page planner to start your paycheck budget.",
     details:
@@ -63,6 +70,7 @@ export const products: Product[] = [
   },
   {
     id: "paycheck-bundle-2027",
+    category: "paycheck",
     name: "2027 Paycheck Budget Bundle",
     short: "One digital workbook plus one printable planner for Jan–Dec 2027.",
     details:
@@ -75,6 +83,7 @@ export const products: Product[] = [
   },
   {
     id: "sinking-funds-bundle",
+    category: "sinking",
     name: "Sinking Funds Tracker Bundle",
     short: "Track savings goals on paper or in a spreadsheet.",
     details:
@@ -87,6 +96,7 @@ export const products: Product[] = [
   },
   {
     id: "sinking-funds-spreadsheet",
+    category: "sinking",
     name: "Sinking Funds Tracker Spreadsheet",
     short: "Set goals for car repairs, holidays, gifts and more.",
     details:
@@ -99,6 +109,7 @@ export const products: Product[] = [
   },
   {
     id: "sinking-funds-printable",
+    category: "sinking",
     name: "Sinking Funds Tracker Printable PDF",
     short: "A simple one-page A4 tracker with editable fund sections.",
     details:

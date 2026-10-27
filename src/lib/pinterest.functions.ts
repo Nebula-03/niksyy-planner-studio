@@ -58,3 +58,30 @@ export const getTopPins = createServerFn({ method: "GET" })
       return { status: "error", message: e instanceof Error ? e.message : "Unknown error" };
     }
   });
+
+export type BoardStat = { id: string; name: string; image: string; url: string; pinCount: number | null };
+export type BoardsResult =
+  | { status: "disconnected" }
+  | { status: "error"; message: string }
+  | { status: "ok"; boards: BoardStat[]; fetchedAt: string };
+
+// Lists the account's boards so newly created boards appear after a refresh.
+export const getBoards = createServerFn({ method: "GET" }).handler(async (): Promise<BoardsResult> => {
+  const token = process.env["PINTEREST_ACCESS_TOKEN"];
+  if (!token) return { status: "disconnected" };
+  try {
+    const res = await fetch(`${API}/boards?page_size=50`, { headers: { Authorization: `Bearer ${token}` } });
+    if (!res.ok) return { status: "error", message: `Pinterest responded ${res.status}` };
+    const j = (await res.json()) as { items: any[] };
+    const boards = (j.items ?? []).map((b) => ({
+      id: b.id,
+      name: b.name ?? "Board",
+      image: b.media?.image_cover_url ?? "",
+      url: b.owner?.username ? `https://www.pinterest.com/${b.owner.username}/` : "https://in.pinterest.com/niksyymyshop/",
+      pinCount: b.pin_count ?? null,
+    }));
+    return { status: "ok", boards, fetchedAt: new Date().toISOString() };
+  } catch (e) {
+    return { status: "error", message: e instanceof Error ? e.message : "Unknown error" };
+  }
+});
