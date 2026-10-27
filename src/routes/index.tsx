@@ -7,6 +7,7 @@ import { visibleProducts, type Product } from "@/data/products";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
 import { PinterestSection } from "@/components/site/PinterestSection";
+import { ThemeToggle } from "@/components/site/ThemeToggle";
 
 const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca";
 
@@ -46,9 +47,12 @@ function Nav() {
             <li key={h}><a href={h} className="font-medium underline-offset-8 hover:underline decoration-accent decoration-2">{l}</a></li>
           ))}
         </ul>
-        <button className="md:hidden p-2" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)}>
-          {open ? <X /> : <Menu />}
-        </button>
+        <div className="flex items-center gap-2">
+          <ThemeToggle />
+          <button className="md:hidden p-2" aria-label={open ? "Close menu" : "Open menu"} aria-expanded={open} onClick={() => setOpen(!open)}>
+            {open ? <X /> : <Menu />}
+          </button>
+        </div>
       </nav>
       {open && (
         <ul className="md:hidden border-t px-5 py-3 space-y-2">
