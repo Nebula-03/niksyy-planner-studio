@@ -91,7 +91,7 @@ function Hero() {
         {spots.map((s, i) => ps[i] && (
           <div key={i} className={`absolute ${s.c} ${s.a} paper-card p-2`} style={{ ["--r" as string]: s.r, animationDelay: `${i * -1.7}s` }}>
             <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-[-4deg]" />
-            <ProductImage src={ps[i].image} alt="" className="aspect-square w-full rounded-sm" />
+            <ProductImage src={ps[i].image} alt="" className="aspect-[4/3] w-full rounded-sm" />
           </div>
         ))}
       </div>
@@ -128,7 +128,7 @@ function Products({ onOpen }: { onOpen: (p: Product) => void }) {
             <li key={p.id} className="relative paper-card flex flex-col p-4 transition-transform hover:-translate-y-1 hover:shadow-lift" style={{ rotate: `${(i % 3 - 1) * 0.7}deg` }}>
               <span className="pin left-1/2 -top-1.5 -translate-x-1/2" aria-hidden />
               <button onClick={() => onOpen(p)} className={`block overflow-hidden rounded-sm ${tints[i % 3]}`} aria-label={`View details: ${p.name}`}>
-                <ProductImage src={p.image} alt={`${p.name} cover`} className="aspect-square w-full" />
+                <ProductImage src={p.image} alt={`${p.name} cover`} className="aspect-[4/3] w-full" />
               </button>
               <div className="mt-4 flex items-start justify-between gap-3">
                 <h3 className="text-xl font-semibold leading-snug">
@@ -157,7 +157,7 @@ function ProductModal({ p, onClose }: { p: Product | null; onClose: () => void }
       <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-paper">
         {p && (
           <div className="grid gap-6 md:grid-cols-2">
-            <ProductImage src={p.image} alt={`${p.name} cover`} className="w-full rounded-md aspect-square" />
+            <ProductImage src={p.image} alt={`${p.name} cover`} className="w-full rounded-md" />
             <div>
               <DialogTitle className="text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>{p.name}</DialogTitle>
               <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>

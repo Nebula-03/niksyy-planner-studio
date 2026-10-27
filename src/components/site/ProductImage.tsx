@@ -11,5 +11,5 @@ export function ProductImage({ src, alt, className = "" }: { src: string; alt: s
       </div>
     );
   }
-  return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} className={`object-cover ${className}`} />;
+  return <img src={src} alt={alt} loading="lazy" onError={() => setFailed(true)} className={`object-contain bg-paper ${className}`} />;
 }
