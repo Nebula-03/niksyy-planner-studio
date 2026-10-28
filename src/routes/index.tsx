@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ChevronRight, ExternalLink, Menu, X } from "lucide-react";
@@ -276,7 +276,7 @@ function Index() {
       </main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
         <Divider className="mb-4" />
-        © {new Date().getFullYear()} {site.name}
+        © {new Date().getFullYear()} {site.name} · <Link to="/privacy" className="underline underline-offset-4">Privacy</Link>
       </footer>
       <ProductModal p={active} onClose={() => setActive(null)} />
     </>
