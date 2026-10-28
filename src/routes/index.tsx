@@ -7,15 +7,16 @@ import { visibleProducts, type Product } from "@/data/products";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
+import { Sprig, Flower, Divider } from "@/components/site/Botanical";
 
 const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NiksYY Shop — Digital Budget & Savings Planners" },
-      { name: "description", content: "Printable and digital planners for budgeting, paychecks, sinking funds and savings — from NiksYY Shop." },
-      { property: "og:title", content: "NiksYY Shop — Digital Budget & Savings Planners" },
+      { title: "Niksyy Shop — Digital Budget & Savings Planners" },
+      { name: "description", content: "Printable and digital planners for budgeting, paychecks, sinking funds and savings — from Niksyy Shop." },
+      { property: "og:title", content: "Niksyy Shop — Digital Budget & Savings Planners" },
       { property: "og:description", content: "Printable and digital planners for budgeting, paychecks and savings." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -38,7 +39,7 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
       <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="#top" className="font-display text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>
-          NiksYY<span className="text-accent"> Shop</span>
+          Niksyy<span className="text-accent"> Shop</span>
         </a>
         <ul className="hidden gap-7 md:flex">
           {NAV.map(([l, h]) => (
@@ -72,14 +73,15 @@ function Hero() {
     { c: "right-[14%] bottom-[6%] w-40 md:w-52", r: "-4deg", a: "animate-float-a" },
   ];
   return (
-    <section id="top" className="mx-auto grid max-w-6xl items-center gap-10 px-5 pt-14 pb-20 md:grid-cols-2 md:pt-20">
-      <div className="animate-rise">
+    <section id="top" className="relative mx-auto grid max-w-6xl items-center gap-10 overflow-hidden px-5 pt-14 pb-20 md:grid-cols-2 md:pt-20">
+      <Sprig className="pointer-events-none absolute -left-4 bottom-0 h-56 text-sage opacity-60 animate-float-b" />
+      <div className="relative animate-rise">
         <p className="font-hand text-3xl text-muted-foreground">a little planner shop ✿</p>
         <h1 className="mt-2 text-5xl md:text-6xl font-semibold leading-[1.05]">
           Plan your money, <em className="text-accent not-italic underline decoration-sage decoration-8 underline-offset-4">gently</em>.
         </h1>
         <p className="mt-5 max-w-md text-lg text-muted-foreground">
-          NiksYY Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
+          Niksyy Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button variant="hero" size="lg" asChild><a href="#products">Browse products</a></Button>
@@ -90,6 +92,7 @@ function Hero() {
       </div>
       <div className="relative h-[420px] md:h-[520px]" aria-hidden>
         <div className="absolute inset-[12%] rounded-full bg-lilac/40 blur-3xl" />
+        <Flower className="pointer-events-none absolute left-[44%] bottom-[34%] h-28 text-coral opacity-70 animate-float-a" />
         {spots.map((s, i) => ps[i] && (
           <div key={i} className={`absolute ${s.c} ${s.a} paper-card p-2`} style={{ ["--r" as string]: s.r, animationDelay: `${i * -1.7}s` }}>
             <span className="tape -top-3 left-1/2 -translate-x-1/2 rotate-[-4deg]" />
@@ -107,6 +110,8 @@ function About() {
       <div className="relative paper-card p-8 md:p-12 rotate-[-0.6deg]">
         <span className="tape -top-3 left-8 rotate-[-8deg]" aria-hidden />
         <span className="tape -top-3 right-8 rotate-[6deg]" aria-hidden />
+        <Flower className="pointer-events-none absolute -right-5 -bottom-8 h-28 text-coral opacity-70" />
+        <Sprig className="pointer-events-none absolute -left-8 -top-10 h-24 rotate-[-20deg] text-sage opacity-70" />
         <h2 id="about-h" className="text-4xl font-semibold">About</h2>
         <p className="font-hand text-2xl text-muted-foreground mt-1">{site.aboutTitle}</p>
         <div className="mt-5 space-y-4 text-lg leading-relaxed">
@@ -121,10 +126,11 @@ function Products({ onOpen }: { onOpen: (p: Product) => void }) {
   const ps = visibleProducts();
   const tints = ["bg-sage/40", "bg-lilac/40", "bg-coral/30"];
   return (
-    <section id="products" aria-labelledby="prod-h" className="bg-muted/60 py-24">
-      <div className="mx-auto max-w-6xl px-5">
+    <section id="products" aria-labelledby="prod-h" className="relative overflow-hidden bg-muted/60 py-24">
+      <Sprig className="pointer-events-none absolute -right-4 top-10 h-64 text-sage opacity-50 animate-float-a" />
+      <div className="relative mx-auto max-w-6xl px-5">
         <p className="font-hand text-2xl text-muted-foreground">fresh off the pinboard</p>
-        <h2 id="prod-h" className="text-4xl md:text-5xl font-semibold">Products</h2>
+        <h2 id="prod-h" className="flex items-center gap-3 text-4xl md:text-5xl font-semibold"><Flower className="h-10 text-coral" />Products</h2>
         <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {ps.map((p, i) => (
             <li key={p.id} className="relative paper-card flex flex-col p-4 transition-transform hover:-translate-y-1 hover:shadow-lift" style={{ rotate: `${(i % 3 - 1) * 0.7}deg` }}>
@@ -205,6 +211,7 @@ function Contact() {
         }}
       >
         <span className="tape -top-3 right-10 rotate-[5deg]" aria-hidden />
+        <Sprig className="pointer-events-none absolute -right-8 -bottom-6 h-24 text-sage opacity-70" />
         {!configured && (
           <p role="note" className="rounded-md border-l-4 border-accent bg-muted p-3 text-sm">
             Setup note: the contact email hasn't been added yet, so messages can't be sent.
@@ -235,11 +242,14 @@ function Index() {
       <Nav />
       <main id="main">
         <Hero />
+        <Divider />
         <About />
         <Products onOpen={setActive} />
+        <Divider />
         <Contact />
       </main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
+        <Divider className="mb-4" />
         © {new Date().getFullYear()} {site.name}
       </footer>
       <ProductModal p={active} onClose={() => setActive(null)} />
