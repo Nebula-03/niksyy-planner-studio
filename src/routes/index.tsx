@@ -206,7 +206,7 @@ function Contact() {
           if (!configured) return;
           const f = new FormData(e.currentTarget);
           const body = `From: ${f.get("name")} <${f.get("email")}>\n\n${f.get("message")}`;
-          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("NiksYY Shop enquiry")}&body=${encodeURIComponent(body)}`;
+          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("Niksyy Shop enquiry")}&body=${encodeURIComponent(body)}`;
           setSent(true);
         }}
       >
