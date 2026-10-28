@@ -1,22 +1,34 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { visibleProducts, type Product } from "@/data/products";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
-import { PinterestSection } from "@/components/site/PinterestSection";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
+import { getPinterestProducts } from "@/lib/pinterest-products.functions";
+
+/** Products from the Pinterest feed when connected, else the manual list. */
+function useProducts(): Product[] {
+  const q = useQuery({
+    queryKey: ["pinterest-products"],
+    queryFn: () => getPinterestProducts(),
+    refetchInterval: 1000 * 60 * 60, // check for new Pins every hour while open
+    staleTime: 1000 * 60 * 15,
+  });
+  return q.data?.status === "ok" ? q.data.products : visibleProducts();
+}
 
 const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NiksYY Shop — Digital Budget & Savings Planners" },
-      { name: "description", content: "Printable and digital planners for budgeting, paychecks, sinking funds and savings — from NiksYY Shop." },
-      { property: "og:title", content: "NiksYY Shop — Digital Budget & Savings Planners" },
+      { title: "Niksyy Shop — Digital Budget & Savings Planners" },
+      { name: "description", content: "Printable and digital planners for budgeting, paychecks, sinking funds and savings — from Niksyy Shop." },
+      { property: "og:title", content: "Niksyy Shop — Digital Budget & Savings Planners" },
       { property: "og:description", content: "Printable and digital planners for budgeting, paychecks and savings." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -30,7 +42,6 @@ export const Route = createFileRoute("/")({
 const NAV = [
   ["About", "#about"],
   ["Products", "#products"],
-  ["Pinterest", "#pinterest"],
   ["Contact", "#contact"],
 ] as const;
 
@@ -40,7 +51,7 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
       <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="#top" className="font-display text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>
-          NiksYY<span className="text-accent"> Shop</span>
+          Niksyy<span className="text-accent"> Shop</span>
         </a>
         <ul className="hidden gap-7 md:flex">
           {NAV.map(([l, h]) => (
@@ -66,7 +77,7 @@ function Nav() {
 }
 
 function Hero() {
-  const ps = visibleProducts();
+  const ps = useProducts();
   const spots = [
     { c: "left-[2%] top-[4%] w-40 md:w-52", r: "-6deg", a: "animate-float-a" },
     { c: "right-[4%] top-[0%] w-36 md:w-48", r: "5deg", a: "animate-float-b" },
@@ -81,7 +92,7 @@ function Hero() {
           Plan your money, <em className="text-accent not-italic underline decoration-sage decoration-8 underline-offset-4">gently</em>.
         </h1>
         <p className="mt-5 max-w-md text-lg text-muted-foreground">
-          NiksYY Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
+          Niksyy Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button variant="hero" size="lg" asChild><a href="#products">Browse products</a></Button>
@@ -120,7 +131,7 @@ function About() {
 }
 
 function Products({ onOpen }: { onOpen: (p: Product) => void }) {
-  const ps = visibleProducts();
+  const ps = useProducts();
   const tints = ["bg-sage/40", "bg-lilac/40", "bg-coral/30"];
   return (
     <section id="products" aria-labelledby="prod-h" className="bg-muted/60 py-24">
@@ -138,10 +149,14 @@ function Products({ onOpen }: { onOpen: (p: Product) => void }) {
                 <h3 className="text-xl font-semibold leading-snug">
                   <button onClick={() => onOpen(p)} className="text-left hover:underline">{p.name}</button>
                 </h3>
-                <span className="shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">{p.price}</span>
+                {p.price && (
+                  <span className="shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">{p.price}</span>
+                )}
               </div>
-              <p className="mt-2 text-muted-foreground">{p.short}</p>
-              <p className="mt-3 text-xs font-semibold uppercase tracking-wide">{p.formats.join(" · ")}</p>
+              {p.short && <p className="mt-2 text-muted-foreground">{p.short}</p>}
+              {p.formats.length > 0 && (
+                <p className="mt-3 text-xs font-semibold uppercase tracking-wide">{p.formats.join(" · ")}</p>
+              )}
               <div className="mt-auto pt-5">
                 <Button variant="coral" className="w-full" asChild>
                   <a href={p.url} target="_blank" rel="noopener noreferrer">View on Gumroad <ExternalLink aria-hidden /></a>
@@ -164,12 +179,16 @@ function ProductModal({ p, onClose }: { p: Product | null; onClose: () => void }
             <ProductImage src={p.image} alt={`${p.name} cover`} className="w-full rounded-md" />
             <div>
               <DialogTitle className="text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>{p.name}</DialogTitle>
-              <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>
+              {p.price && <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>}
               <DialogDescription className="mt-4 text-base text-foreground">{p.details}</DialogDescription>
-              <h4 className="mt-5 font-semibold">Formats</h4>
-              <ul className="mt-2 flex flex-wrap gap-2">
-                {p.formats.map((f) => <li key={f} className="rounded-full bg-sage/50 px-3 py-1 text-sm">{f}</li>)}
-              </ul>
+              {p.formats.length > 0 && (
+                <>
+                  <h4 className="mt-5 font-semibold">Formats</h4>
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {p.formats.map((f) => <li key={f} className="rounded-full bg-sage/50 px-3 py-1 text-sm">{f}</li>)}
+                  </ul>
+                </>
+              )}
               <Button variant="coral" size="lg" className="mt-6 w-full" asChild>
                 <a href={p.url} target="_blank" rel="noopener noreferrer">View on Gumroad <ExternalLink aria-hidden /></a>
               </Button>
@@ -202,7 +221,7 @@ function Contact() {
           if (!configured) return;
           const f = new FormData(e.currentTarget);
           const body = `From: ${f.get("name")} <${f.get("email")}>\n\n${f.get("message")}`;
-          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("NiksYY Shop enquiry")}&body=${encodeURIComponent(body)}`;
+          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("Niksyy Shop enquiry")}&body=${encodeURIComponent(body)}`;
           setSent(true);
         }}
       >
@@ -239,7 +258,6 @@ function Index() {
         <Hero />
         <About />
         <Products onOpen={setActive} />
-        <PinterestSection />
         <Contact />
       </main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
