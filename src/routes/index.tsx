@@ -1,13 +1,13 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
-import { ExternalLink, Menu, X } from "lucide-react";
+import { ChevronRight, ExternalLink, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { visibleProducts, type Product } from "@/data/products";
+import { boards, visibleProducts, type Product } from "@/data/products";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
-import { Sprig, Flower, Divider } from "@/components/site/Botanical";
+import { Sprig, Flower, Divider, FlowerLine } from "@/components/site/Botanical";
 import portrait from "@/assets/niksyy-portrait.jpeg";
 import pinterestQr from "@/assets/pinterest-qr.png";
 
@@ -124,38 +124,72 @@ function About() {
   );
 }
 
+function ProductCard({ p, i, onOpen }: { p: Product; i: number; onOpen: (p: Product) => void }) {
+  const tints = ["bg-sage/40", "bg-lilac/40", "bg-coral/30"];
+  return (
+    <li className="relative paper-card flex flex-col p-4 transition-transform hover:-translate-y-1 hover:shadow-lift" style={{ rotate: `${(i % 3 - 1) * 0.7}deg` }}>
+      <span className="pin left-1/2 -top-1.5 -translate-x-1/2" aria-hidden />
+      <button onClick={() => onOpen(p)} className={`block overflow-hidden rounded-sm ${tints[i % 3]}`} aria-label={`View details: ${p.name}`}>
+        <ProductImage src={p.image} alt={`${p.name} cover`} className="aspect-[4/3] w-full" />
+      </button>
+      <div className="mt-4 flex items-start justify-between gap-3">
+        <h4 className="text-xl font-semibold leading-snug">
+          <button onClick={() => onOpen(p)} className="text-left hover:underline">{p.name}</button>
+        </h4>
+        {p.price && <span className="shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">{p.price}</span>}
+      </div>
+      <p className="mt-2 text-muted-foreground">{p.short}</p>
+      {p.formats.length > 0 && <p className="mt-3 text-xs font-semibold uppercase tracking-wide">{p.formats.join(" · ")}</p>}
+      <div className="mt-auto pt-5">
+        <Button variant="coral" className="w-full" asChild>
+          <a href={p.url} target="_blank" rel="noopener noreferrer">{p.linkLabel ?? "View on Gumroad"} <ExternalLink aria-hidden /></a>
+        </Button>
+      </div>
+    </li>
+  );
+}
+
 function Products({ onOpen }: { onOpen: (p: Product) => void }) {
   const ps = visibleProducts();
-  const tints = ["bg-sage/40", "bg-lilac/40", "bg-coral/30"];
+  const groups = [...boards]
+    .sort((a, b) => a.order - b.order)
+    .map((b) => ({ ...b, items: ps.filter((p) => p.board === b.id) }))
+    .filter((g) => g.items.length > 0);
+  const [openIds, setOpenIds] = useState<string[]>([]);
+  const toggle = (id: string) => setOpenIds((o) => (o.includes(id) ? o.filter((x) => x !== id) : [...o, id]));
   return (
     <section id="products" aria-labelledby="prod-h" className="relative overflow-hidden bg-muted/60 py-24">
       <Sprig className="pointer-events-none absolute -right-4 top-10 h-64 text-sage opacity-50 animate-float-a" />
       <div className="relative mx-auto max-w-6xl px-5">
         <p className="font-hand text-2xl text-muted-foreground">fresh off the pinboard</p>
         <h2 id="prod-h" className="flex items-center gap-3 text-4xl md:text-5xl font-semibold"><Flower className="h-10 text-coral" />Products</h2>
-        <ul className="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {ps.map((p, i) => (
-            <li key={p.id} className="relative paper-card flex flex-col p-4 transition-transform hover:-translate-y-1 hover:shadow-lift" style={{ rotate: `${(i % 3 - 1) * 0.7}deg` }}>
-              <span className="pin left-1/2 -top-1.5 -translate-x-1/2" aria-hidden />
-              <button onClick={() => onOpen(p)} className={`block overflow-hidden rounded-sm ${tints[i % 3]}`} aria-label={`View details: ${p.name}`}>
-                <ProductImage src={p.image} alt={`${p.name} cover`} className="aspect-[4/3] w-full" />
-              </button>
-              <div className="mt-4 flex items-start justify-between gap-3">
-                <h3 className="text-xl font-semibold leading-snug">
-                  <button onClick={() => onOpen(p)} className="text-left hover:underline">{p.name}</button>
+        <div className="mt-10">
+          {groups.map((g, gi) => {
+            const isOpen = openIds.includes(g.id);
+            return (
+              <div key={g.id}>
+                {gi > 0 && <FlowerLine className="my-6" />}
+                <h3 className="text-2xl md:text-3xl font-semibold">
+                  <button
+                    onClick={() => toggle(g.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={`board-${g.id}`}
+                    className="group flex w-full items-center gap-3 py-3 text-left"
+                  >
+                    <span className="underline-offset-8 decoration-accent decoration-2 group-hover:underline">{g.name}</span>
+                    <span className="text-base font-normal text-muted-foreground">{g.items.length} {g.items.length === 1 ? "Pin" : "Pins"}</span>
+                    <ChevronRight aria-hidden className={`size-6 shrink-0 text-accent transition-transform ${isOpen ? "rotate-90" : ""}`} />
+                  </button>
                 </h3>
-                <span className="shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">{p.price}</span>
+                {isOpen && (
+                  <ul id={`board-${g.id}`} className="animate-rise mt-6 mb-4 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                    {g.items.map((p, i) => <ProductCard key={p.id} p={p} i={i} onOpen={onOpen} />)}
+                  </ul>
+                )}
               </div>
-              <p className="mt-2 text-muted-foreground">{p.short}</p>
-              <p className="mt-3 text-xs font-semibold uppercase tracking-wide">{p.formats.join(" · ")}</p>
-              <div className="mt-auto pt-5">
-                <Button variant="coral" className="w-full" asChild>
-                  <a href={p.url} target="_blank" rel="noopener noreferrer">View on Gumroad <ExternalLink aria-hidden /></a>
-                </Button>
-              </div>
-            </li>
-          ))}
-        </ul>
+            );
+          })}
+        </div>
       </div>
     </section>
   );
@@ -170,14 +204,18 @@ function ProductModal({ p, onClose }: { p: Product | null; onClose: () => void }
             <ProductImage src={p.image} alt={`${p.name} cover`} className="w-full rounded-md" />
             <div>
               <DialogTitle className="text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>{p.name}</DialogTitle>
-              <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>
+              {p.price && <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>}
               <DialogDescription className="mt-4 text-base text-foreground">{p.details}</DialogDescription>
-              <h4 className="mt-5 font-semibold">Formats</h4>
-              <ul className="mt-2 flex flex-wrap gap-2">
-                {p.formats.map((f) => <li key={f} className="rounded-full bg-sage/50 px-3 py-1 text-sm">{f}</li>)}
-              </ul>
+              {p.formats.length > 0 && (
+                <>
+                  <h4 className="mt-5 font-semibold">Formats</h4>
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {p.formats.map((f) => <li key={f} className="rounded-full bg-sage/50 px-3 py-1 text-sm">{f}</li>)}
+                  </ul>
+                </>
+              )}
               <Button variant="coral" size="lg" className="mt-6 w-full" asChild>
-                <a href={p.url} target="_blank" rel="noopener noreferrer">View on Gumroad <ExternalLink aria-hidden /></a>
+                <a href={p.url} target="_blank" rel="noopener noreferrer">{p.linkLabel ?? "View on Gumroad"} <ExternalLink aria-hidden /></a>
               </Button>
             </div>
           </div>

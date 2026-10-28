@@ -21,8 +21,25 @@ export type Product = {
   url: string;
   image: string;
   order: number;
+  /** Which Pinterest board (see `boards` below) this product is shown under. */
+  board: BoardId;
+  /** Label for the product button. Defaults to "View on Gumroad". */
+  linkLabel?: string;
   hidden?: boolean;
 };
+
+/**
+ * BOARDS — mirror your Pinterest boards. Each one is a closed dropdown on the
+ * site; its products appear when it is opened. Reorder with `order`.
+ */
+export type BoardId = "paycheck" | "resolutions" | "todo" | "study";
+
+export const boards: { id: BoardId; name: string; order: number }[] = [
+  { id: "resolutions", name: "Resolutions", order: 1 },
+  { id: "paycheck", name: "Paycheck Budget Planners", order: 2 },
+  { id: "todo", name: "To-Do-List", order: 3 },
+  { id: "study", name: "Study Planners & Printables", order: 4 },
+];
 
 export const products: Product[] = [
   {
@@ -36,6 +53,7 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/wgwloz",
     image: "https://public-files.gumroad.com/gyi9khcqpcnk8knsh6a550qxdvvt",
     order: 1,
+    board: "paycheck",
   },
   {
     id: "paycheck-printable-2027",
@@ -48,6 +66,7 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/printable-budget-planner-a4",
     image: "https://public-files.gumroad.com/u33ti179qnt7lp18tzayf25w6opw",
     order: 2,
+    board: "paycheck",
   },
   {
     id: "first-paycheck-free",
@@ -60,6 +79,7 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/first-paycheck-planner",
     image: "https://public-files.gumroad.com/tfwfs49p2rawh0er44gl68gh9hnh",
     order: 3,
+    board: "paycheck",
   },
   {
     id: "paycheck-bundle-2027",
@@ -72,6 +92,7 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/fullyear-paycheck-budget-planner-2027",
     image: "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca",
     order: 4,
+    board: "paycheck",
   },
   {
     id: "sinking-funds-bundle",
@@ -84,6 +105,7 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/sinkingfundstracker-bundle",
     image: "https://public-files.gumroad.com/3n5rlzmhm27gsjss6atemnup3sfj",
     order: 5,
+    board: "paycheck",
   },
   {
     id: "sinking-funds-spreadsheet",
@@ -96,6 +118,7 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/excel-google-sheet-tracker",
     image: "https://public-files.gumroad.com/q5suacv3pazpwgtafkqo0gre25b3",
     order: 6,
+    board: "paycheck",
   },
   {
     id: "sinking-funds-printable",
@@ -108,6 +131,85 @@ export const products: Product[] = [
     url: "https://niksyyshop.gumroad.com/l/sinking-funds-tracker-planner-pdf",
     image: "https://public-files.gumroad.com/56yjcfs1mrhsxhfcs12t6nptypw6",
     order: 7,
+    board: "paycheck",
+  },
+  {
+    id: "resolution-planner-2027",
+    name: "Free 2027 New Year Resolution Planner",
+    short: "Details coming soon — see it on Pinterest.",
+    details: "Details coming soon. See this planner on my Pinterest board.",
+    formats: [],
+    price: "",
+    url: "https://in.pinterest.com/niksyymyshop/",
+    linkLabel: "View on Pinterest",
+    image: "",
+    order: 8,
+    board: "resolutions",
+  },
+  {
+    id: "planner-2027-printable",
+    name: "2027 Planner Printable PDF",
+    short: "Details coming soon — see it on Pinterest.",
+    details: "Details coming soon. See this planner on my Pinterest board.",
+    formats: [],
+    price: "",
+    url: "https://in.pinterest.com/niksyymyshop/",
+    linkLabel: "View on Pinterest",
+    image: "",
+    order: 9,
+    board: "resolutions",
+  },
+  {
+    id: "daily-todo-list",
+    name: "Free Editable Daily To-Do List",
+    short: "Details coming soon — see it on Pinterest.",
+    details: "Details coming soon. See this planner on my Pinterest board.",
+    formats: [],
+    price: "",
+    url: "https://in.pinterest.com/niksyymyshop/",
+    linkLabel: "View on Pinterest",
+    image: "",
+    order: 10,
+    board: "todo",
+  },
+  {
+    id: "study-dark-academia",
+    name: "Free Dark Academia Study Planner",
+    short: "Details coming soon — see it on Pinterest.",
+    details: "Details coming soon. See this planner on my Pinterest board.",
+    formats: [],
+    price: "",
+    url: "https://in.pinterest.com/niksyymyshop/",
+    linkLabel: "View on Pinterest",
+    image: "",
+    order: 11,
+    board: "study",
+  },
+  {
+    id: "study-planner-2027",
+    name: "Study Planner 2027 (12-Month)",
+    short: "Details coming soon — see it on Pinterest.",
+    details: "Details coming soon. See this planner on my Pinterest board.",
+    formats: [],
+    price: "",
+    url: "https://in.pinterest.com/niksyymyshop/",
+    linkLabel: "View on Pinterest",
+    image: "",
+    order: 12,
+    board: "study",
+  },
+  {
+    id: "study-month-planner",
+    name: "Study Month Planner (Canva)",
+    short: "Details coming soon — see it on Pinterest.",
+    details: "Details coming soon. See this planner on my Pinterest board.",
+    formats: [],
+    price: "",
+    url: "https://in.pinterest.com/niksyymyshop/",
+    linkLabel: "View on Pinterest",
+    image: "",
+    order: 13,
+    board: "study",
   },
 ];
 

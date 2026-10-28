@@ -45,3 +45,27 @@ export function Divider({ className = "" }: { className?: string }) {
     </div>
   );
 }
+
+/** Thin line of tiny flowers, used to separate the boards in Products. */
+export function FlowerLine({ className = "" }: { className?: string }) {
+  const xs = Array.from({ length: 9 }, (_, i) => 20 + i * 30);
+  return (
+    <svg viewBox="0 0 280 24" className={`mx-auto block h-6 w-full max-w-sm text-sage ${className}`} fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" aria-hidden>
+      <path d="M0 12 H280" opacity="0.6" />
+      {xs.map((x, i) => (
+        <g key={x} transform={`translate(${x} 12)`}>
+          {i % 2 === 0 ? (
+            <>
+              {[0, 72, 144, 216, 288].map((r) => (
+                <ellipse key={r} cx="0" cy="-3.2" rx="1.7" ry="3" transform={`rotate(${r})`} stroke="var(--coral)" fill="var(--background)" />
+              ))}
+              <circle r="1" fill="var(--coral)" stroke="none" />
+            </>
+          ) : (
+            <path d="M-5 0 C-3 -6 3 -6 5 0 C3 6 -3 6 -5 0Z" fill="var(--background)" />
+          )}
+        </g>
+      ))}
+    </svg>
+  );
+}
