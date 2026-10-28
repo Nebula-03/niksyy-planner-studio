@@ -1,14 +1,8 @@
 /**
- * PRODUCTS — manual details that enrich the automatic Pinterest sync.
- *
- * When Pinterest is connected, any Pin linking to a Gumroad product appears
- * in the Products section automatically. If the Pin's link matches a `url`
- * below, that product's price, formats and description are used; new Pins
- * otherwise show with the Pin's title, image and link (no price yet).
+ * PRODUCTS — the single source of truth for the Products section.
  *
  * How to edit:
- * - Add price/formats for a new Pin: copy one object and set its `url` to
- *   the same Gumroad link the Pin points to.
+ * - Add a product: copy one object and change its fields.
  * - Hide a product: set `hidden: true`.
  * - Reorder: change the `order` number (lower shows first).
  * - Replace an image: paste a new URL in `image` (e.g. your Gumroad cover URL),

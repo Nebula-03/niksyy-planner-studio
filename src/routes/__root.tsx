@@ -78,9 +78,9 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Niksyy Shop" },
+      { title: "NiksYY Shop" },
       { name: "description", content: "Digital and printable planners for budgeting and savings." },
-      { property: "og:title", content: "Niksyy Shop" },
+      { property: "og:title", content: "NiksYY Shop" },
       { property: "og:description", content: "Digital and printable planners for budgeting and savings." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
