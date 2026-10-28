@@ -1,13 +1,25 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { ExternalLink, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
 import { visibleProducts, type Product } from "@/data/products";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
-import { PinterestSection } from "@/components/site/PinterestSection";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
+import { getPinterestProducts } from "@/lib/pinterest-products.functions";
+
+/** Products from the Pinterest feed when connected, else the manual list. */
+function useProducts(): Product[] {
+  const q = useQuery({
+    queryKey: ["pinterest-products"],
+    queryFn: () => getPinterestProducts(),
+    refetchInterval: 1000 * 60 * 60, // check for new Pins every hour while open
+    staleTime: 1000 * 60 * 15,
+  });
+  return q.data?.status === "ok" ? q.data.products : visibleProducts();
+}
 
 const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca";
 
@@ -30,7 +42,6 @@ export const Route = createFileRoute("/")({
 const NAV = [
   ["About", "#about"],
   ["Products", "#products"],
-  ["Pinterest", "#pinterest"],
   ["Contact", "#contact"],
 ] as const;
 
