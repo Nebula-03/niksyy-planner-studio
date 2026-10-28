@@ -179,12 +179,16 @@ function ProductModal({ p, onClose }: { p: Product | null; onClose: () => void }
             <ProductImage src={p.image} alt={`${p.name} cover`} className="w-full rounded-md" />
             <div>
               <DialogTitle className="text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>{p.name}</DialogTitle>
-              <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>
+              {p.price && <p className="mt-2 text-2xl font-bold text-primary">{p.price}</p>}
               <DialogDescription className="mt-4 text-base text-foreground">{p.details}</DialogDescription>
-              <h4 className="mt-5 font-semibold">Formats</h4>
-              <ul className="mt-2 flex flex-wrap gap-2">
-                {p.formats.map((f) => <li key={f} className="rounded-full bg-sage/50 px-3 py-1 text-sm">{f}</li>)}
-              </ul>
+              {p.formats.length > 0 && (
+                <>
+                  <h4 className="mt-5 font-semibold">Formats</h4>
+                  <ul className="mt-2 flex flex-wrap gap-2">
+                    {p.formats.map((f) => <li key={f} className="rounded-full bg-sage/50 px-3 py-1 text-sm">{f}</li>)}
+                  </ul>
+                </>
+              )}
               <Button variant="coral" size="lg" className="mt-6 w-full" asChild>
                 <a href={p.url} target="_blank" rel="noopener noreferrer">View on Gumroad <ExternalLink aria-hidden /></a>
               </Button>
@@ -254,7 +258,6 @@ function Index() {
         <Hero />
         <About />
         <Products onOpen={setActive} />
-        <PinterestSection />
         <Contact />
       </main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">

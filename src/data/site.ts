@@ -17,21 +17,3 @@ export const site = {
   ],
 };
 
-/**
- * MANUAL PINS — shown when the Pinterest connection isn't set up.
- * Only add real Pins and real numbers from your Pinterest analytics.
- * Leave metrics as null if you don't want to show them.
- */
-export type ManualPin = {
-  url: string;
-  image: string;
-  title: string;
-  impressions: number | null;
-  outboundClicks: number | null;
-  saves: number | null;
-};
-
-export const manualPins: ManualPin[] = [
-  // Example (remove the // to use):
-  // { url: "https://www.pinterest.com/pin/123/", image: "https://...", title: "My Pin", impressions: null, outboundClicks: null, saves: null },
-];
