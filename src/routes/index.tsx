@@ -6,7 +6,6 @@ import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/compone
 import { visibleProducts, type Product } from "@/data/products";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
-import { PinterestSection } from "@/components/site/PinterestSection";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 
 const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca";
@@ -30,7 +29,6 @@ export const Route = createFileRoute("/")({
 const NAV = [
   ["About", "#about"],
   ["Products", "#products"],
-  ["Pinterest", "#pinterest"],
   ["Contact", "#contact"],
 ] as const;
 
@@ -239,7 +237,6 @@ function Index() {
         <Hero />
         <About />
         <Products onOpen={setActive} />
-        <PinterestSection />
         <Contact />
       </main>
       <footer className="border-t py-8 text-center text-sm text-muted-foreground">
