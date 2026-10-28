@@ -1,5 +1,3 @@
-import type { CategoryId } from "./site";
-
 /**
  * PRODUCTS — the single source of truth for the Products section.
  *
@@ -23,15 +21,12 @@ export type Product = {
   url: string;
   image: string;
   order: number;
-  /** Which Products heading this sits under (see categories in site.ts). */
-  category: CategoryId;
   hidden?: boolean;
 };
 
 export const products: Product[] = [
   {
     id: "paycheck-spreadsheet-2027",
-    category: "paycheck",
     name: "2027 Full-Year Paycheck Budget Spreadsheet",
     short: "Map paydays, plan bills and track monthly spending through 2027.",
     details:
@@ -39,12 +34,11 @@ export const products: Product[] = [
     formats: ["Excel", "Google Sheets"],
     price: "$3.99",
     url: "https://niksyyshop.gumroad.com/l/wgwloz",
-    image: "https://public-files.gumroad.com/6o71ejn0cynnqtzf3vb6o1weyqa5",
+    image: "https://public-files.gumroad.com/gyi9khcqpcnk8knsh6a550qxdvvt",
     order: 1,
   },
   {
     id: "paycheck-printable-2027",
-    category: "paycheck",
     name: "2027 Full-Year Paycheck Budget Planner",
     short: "Plan your money month by month with printable pages.",
     details:
@@ -52,12 +46,11 @@ export const products: Product[] = [
     formats: ["Printable A4 PDF", "Canva-editable pages"],
     price: "$6.99",
     url: "https://niksyyshop.gumroad.com/l/printable-budget-planner-a4",
-    image: "https://public-files.gumroad.com/nd43bx6agueyrkzeziqetaz5x2kl",
+    image: "https://public-files.gumroad.com/u33ti179qnt7lp18tzayf25w6opw",
     order: 2,
   },
   {
     id: "first-paycheck-free",
-    category: "paycheck",
     name: "First Paycheck Budget Planner PDF",
     short: "A free 11-page planner to start your paycheck budget.",
     details:
@@ -70,8 +63,7 @@ export const products: Product[] = [
   },
   {
     id: "paycheck-bundle-2027",
-    category: "paycheck",
-    name: "2027 Paycheck Budget Bundle | Excel Spreadsheet + A4 Printable Planner",
+    name: "2027 Paycheck Budget Bundle",
     short: "One digital workbook plus one printable planner for Jan–Dec 2027.",
     details:
       "Plan your paychecks and monthly spending with one digital workbook and one printable planner for January–December 2027. This bundle includes the full-year spreadsheet and the A4 printable planner.",
@@ -82,94 +74,39 @@ export const products: Product[] = [
     order: 4,
   },
   {
-    id: "todo-daily-free",
-    category: "todo",
-    name: "Free Daily To-Do List | Canva-Editable Planner Page",
-    short: "A calm daily page for tasks, priorities, notes and reminders.",
-    details:
-      "Plan your day with a simple, calming layout. This daily to-do list has space for tasks, priorities, notes, reminders, and a short end-of-day reflection. See the Gumroad listing for the included file and access details.",
-    formats: ["Canva-editable planner page", "Printable"],
-    price: "Free",
-    url: "https://niksyyshop.gumroad.com/l/to-do-list",
-    image: "https://public-files.gumroad.com/1ky6a98vfarmvt51hux2gt41py38",
-    order: 1,
-  },
-  {
-    id: "study-magic-academy-2027",
-    category: "study",
-    name: "dark academia planner | Magic Academy Jan–Mar 2027 Printable sheets",
-    short: "A dark, spellbook-inspired study planner for January–March 2027.",
-    details:
-      "Plan your semester like a spellbook with this dark magic academy themed study planner for January, February, and March 2027. Pages include areas for daily study, deadlines and exams, class timing, self-study hours, me-time, and notes.",
-    formats: ["Printable planner sheets"],
-    price: "$1.00",
-    url: "https://niksyyshop.gumroad.com/l/dark-theme-academia-planner",
-    image: "https://public-files.gumroad.com/uvcwwez6tqoqxzemq5aj1ma14jh6",
-    order: 1,
-  },
-  {
-    id: "study-planner-2027",
-    category: "study",
-    name: "Study Planner 2027 🌿| 12-Month Canva Editable + Printable Pastel Calendar (Jan–Dec)",
-    short: "Twelve pastel monthly study planner sheets for January–December 2027.",
-    details:
-      "A full-year pastel study planner with one monthly sheet for each month of 2027. The pages are Canva-editable and printable. Visit the Gumroad listing for the full file and use details.",
-    formats: ["Canva-editable", "Printable"],
-    price: "$5.99",
-    url: "https://niksyyshop.gumroad.com/l/study-12month-planner-2027",
-    image: "https://public-files.gumroad.com/iejwmz6qfzf8166qm0su4nno52rv",
-    order: 2,
-  },
-  {
-    id: "study-month-free",
-    category: "study",
-    name: "Study Month Planner | Canva Editable + Printable | Gen-Z Pastel Monthly Study Calendar",
-    short: "A pastel one-page calendar to organize a study month.",
-    details:
-      "Plan one study month on a single pastel calendar sheet. The planner is Canva-editable and printable. See the Gumroad listing for the included file and access details.",
-    formats: ["Canva-editable", "Printable"],
-    price: "Free",
-    url: "https://niksyyshop.gumroad.com/l/study-month-planner",
-    image: "https://public-files.gumroad.com/qij1yj9e2ro8ndqghtvebhtb71r9",
-    order: 3,
-  },
-  {
     id: "sinking-funds-bundle",
-    category: "sinking",
-    name: "Sinking Funds Tracker - Printable Planner PDF + Editable Excel & Google Sheet Bundle",
+    name: "Sinking Funds Tracker Bundle",
     short: "Track savings goals on paper or in a spreadsheet.",
     details:
       "Organize your savings goals in the format that works for you. This bundle includes a one-page A4 sinking funds tracker for printing and a digital spreadsheet version.",
     formats: ["Printable PDF", "Excel", "Google Sheets"],
     price: "$1.99",
     url: "https://niksyyshop.gumroad.com/l/sinkingfundstracker-bundle",
-    image: "https://public-files.gumroad.com/065lsx5jpxttbyobnvehycx0cflw",
+    image: "https://public-files.gumroad.com/3n5rlzmhm27gsjss6atemnup3sfj",
     order: 5,
   },
   {
     id: "sinking-funds-spreadsheet",
-    category: "sinking",
-    name: "Sinking Funds Tracker Spreadsheet | Excel + Google Sheets",
+    name: "Sinking Funds Tracker Spreadsheet",
     short: "Set goals for car repairs, holidays, gifts and more.",
     details:
       "Make saving for planned expenses easier to organize with this sinking funds tracker spreadsheet. Set goals for expenses such as car repairs, holidays, gifts, and more.",
     formats: ["Excel", "Google Sheets"],
     price: "$1.50",
     url: "https://niksyyshop.gumroad.com/l/excel-google-sheet-tracker",
-    image: "https://public-files.gumroad.com/x0dxlmopocsacpf95ottdqus168w",
+    image: "https://public-files.gumroad.com/q5suacv3pazpwgtafkqo0gre25b3",
     order: 6,
   },
   {
     id: "sinking-funds-printable",
-    category: "sinking",
-    name: "Sinking Funds Tracker Printable PDF & Editable Planner Sheet",
+    name: "Sinking Funds Tracker Printable PDF",
     short: "A simple one-page A4 tracker with editable fund sections.",
     details:
       "Save gradually for the expenses and goals that matter with this simple sinking funds tracker. The one-page A4 planner includes six editable fund sections.",
     formats: ["Printable A4 PDF", "Editable planner sheet"],
     price: "$1.00",
     url: "https://niksyyshop.gumroad.com/l/sinking-funds-tracker-planner-pdf",
-    image: "https://public-files.gumroad.com/axzznevea6b3e9j1ab71xzewljsc",
+    image: "https://public-files.gumroad.com/56yjcfs1mrhsxhfcs12t6nptypw6",
     order: 7,
   },
 ];
