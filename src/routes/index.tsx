@@ -8,6 +8,8 @@ import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
 import { Sprig, Flower, Divider } from "@/components/site/Botanical";
+import portrait from "@/assets/niksyy-portrait.jpeg";
+import pinterestQr from "@/assets/pinterest-qr.png";
 
 const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca";
 
@@ -186,50 +188,28 @@ function ProductModal({ p, onClose }: { p: Product | null; onClose: () => void }
 }
 
 function Contact() {
-  const [sent, setSent] = useState(false);
-  const configured = !!site.contactEmail;
   return (
-    <section id="contact" aria-labelledby="contact-h" className="mx-auto max-w-5xl px-5 py-24 grid gap-10 md:grid-cols-[1fr_1.3fr]">
+    <section id="contact" aria-labelledby="contact-h" className="mx-auto max-w-5xl px-5 py-24 grid gap-10 md:grid-cols-[1fr_1.3fr] items-center">
       <div>
         <p className="font-hand text-2xl text-muted-foreground">say hello</p>
         <h2 id="contact-h" className="text-4xl md:text-5xl font-semibold">Contact</h2>
-        <p className="mt-4 text-muted-foreground">Questions about a planner? Send a note.</p>
+        <p className="mt-4 text-muted-foreground">Questions about a planner? Scan my Pinterest code or tap the button — I reply there.</p>
         <ul className="mt-6 space-y-3 font-semibold">
           <li><a className="underline underline-offset-4" href={site.pinterestUrl} target="_blank" rel="noopener noreferrer">Pinterest profile ↗</a></li>
           <li><a className="underline underline-offset-4" href={site.gumroadUrl} target="_blank" rel="noopener noreferrer">Gumroad store ↗</a></li>
         </ul>
       </div>
-      <form
-        className="relative paper-card p-6 md:p-8 space-y-4"
-        onSubmit={(e) => {
-          e.preventDefault();
-          if (!configured) return;
-          const f = new FormData(e.currentTarget);
-          const body = `From: ${f.get("name")} <${f.get("email")}>\n\n${f.get("message")}`;
-          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("Niksyy Shop enquiry")}&body=${encodeURIComponent(body)}`;
-          setSent(true);
-        }}
-      >
-        <span className="tape -top-3 right-10 rotate-[5deg]" aria-hidden />
+      <div className="relative paper-card p-6 md:p-8 flex flex-col items-center text-center">
+        <span className="tape -top-3 left-10 -rotate-[4deg]" aria-hidden />
         <Sprig className="pointer-events-none absolute -right-8 -bottom-6 h-24 text-sage opacity-70" />
-        {!configured && (
-          <p role="note" className="rounded-md border-l-4 border-accent bg-muted p-3 text-sm">
-            Setup note: the contact email hasn't been added yet, so messages can't be sent.
-          </p>
-        )}
-        {[["name", "Name", "text"], ["email", "Email", "email"]].map(([id, l, t]) => (
-          <div key={id}>
-            <label htmlFor={id} className="block text-sm font-semibold">{l}</label>
-            <input id={id} name={id} type={t} required maxLength={200} className="mt-1 w-full rounded-md border bg-background px-3 py-2" />
-          </div>
-        ))}
-        <div>
-          <label htmlFor="message" className="block text-sm font-semibold">Message</label>
-          <textarea id="message" name="message" required rows={5} maxLength={2000} className="mt-1 w-full rounded-md border bg-background px-3 py-2" />
-        </div>
-        <Button variant="hero" size="lg" type="submit" disabled={!configured}>Send message</Button>
-        {sent && <p aria-live="polite" className="text-sm">Your email app should open with the message ready to send.</p>}
-      </form>
+        <img src={portrait} alt="Portrait of Niksyy" className="size-20 rounded-full object-cover ring-4 ring-sage/60 shadow-lift" />
+        <p className="mt-3 font-hand text-2xl leading-none">scan to follow</p>
+        <img src={pinterestQr} alt="QR code that opens the Niksyy Shop Pinterest profile" width={176} height={176} className="mt-4 size-44 rounded-md border shadow-lift" />
+        <p className="mt-3 text-sm text-muted-foreground">Point your camera at the code to open <span className="font-semibold">@niksyymyshop</span> on Pinterest.</p>
+        <Button variant="hero" size="lg" className="mt-5" asChild>
+          <a href={site.pinterestUrl} target="_blank" rel="noopener noreferrer">Follow on Pinterest <ExternalLink aria-hidden /></a>
+        </Button>
+      </div>
     </section>
   );
 }
