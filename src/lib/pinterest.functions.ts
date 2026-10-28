@@ -58,3 +58,60 @@ export const getTopPins = createServerFn({ method: "GET" })
       return { status: "error", message: e instanceof Error ? e.message : "Unknown error" };
     }
   });
+
+export type BoardPin = { id: string; title: string; image: string; link: string; pinUrl: string };
+export type BoardWithPins = { id: string; name: string; pins: BoardPin[] };
+export type BoardsResult =
+  | { status: "disconnected" }
+  | { status: "error"; message: string }
+  | { status: "ok"; boards: BoardWithPins[]; fetchedAt: string };
+
+// Pinterest has rate limits, so keep the last good answer on the server for a few minutes.
+const BOARDS_TTL_MS = 10 * 60 * 1000;
+let boardsCache: { at: number; value: BoardsResult } | null = null;
+
+// Server-only: lists your public boards and the Pins in each one (needs boards:read + pins:read).
+export const getBoardPins = createServerFn({ method: "GET" }).handler(async (): Promise<BoardsResult> => {
+  const token = process.env["PINTEREST_ACCESS_TOKEN"];
+  if (!token) return { status: "disconnected" };
+  if (boardsCache && Date.now() - boardsCache.at < BOARDS_TTL_MS) return boardsCache.value;
+  const headers = { Authorization: `Bearer ${token}` };
+  const getAll = async (path: string): Promise<any[]> => {
+    const items: any[] = [];
+    let bookmark: string | undefined;
+    for (let page = 0; page < 10; page++) {
+      const sep = path.includes("?") ? "&" : "?";
+      const res = await fetch(`${API}${path}${sep}page_size=100${bookmark ? `&bookmark=${encodeURIComponent(bookmark)}` : ""}`, { headers });
+      if (!res.ok) throw new Error(`Pinterest responded ${res.status}`);
+      const json = (await res.json()) as { items?: any[]; bookmark?: string | null };
+      items.push(...(json.items ?? []));
+      if (!json.bookmark) break;
+      bookmark = json.bookmark;
+    }
+    return items;
+  };
+  try {
+    const rawBoards = (await getAll("/boards")).filter((b) => !b.privacy || b.privacy === "PUBLIC");
+    const boards: BoardWithPins[] = await Promise.all(
+      rawBoards.map(async (b) => {
+        const rawPins = await getAll(`/boards/${b.id}/pins`);
+        return {
+          id: String(b.id),
+          name: String(b.name ?? "Untitled board"),
+          pins: rawPins.map((p) => ({
+            id: String(p.id),
+            title: String(p.title || p.description || "Untitled Pin"),
+            image: p.media?.images?.["600x"]?.url ?? p.media?.images?.["400x300"]?.url ?? "",
+            link: typeof p.link === "string" ? p.link : "",
+            pinUrl: `https://www.pinterest.com/pin/${p.id}/`,
+          })),
+        };
+      }),
+    );
+    const value: BoardsResult = { status: "ok", boards, fetchedAt: new Date().toISOString() };
+    boardsCache = { at: Date.now(), value };
+    return value;
+  } catch (e) {
+    return { status: "error", message: e instanceof Error ? e.message : "Unknown error" };
+  }
+});

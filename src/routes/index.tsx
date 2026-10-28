@@ -1,9 +1,12 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useQuery } from "@tanstack/react-query";
 import { useState } from "react";
 import { ChevronRight, ExternalLink, Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogTitle } from "@/components/ui/dialog";
-import { boards, visibleProducts, type Product } from "@/data/products";
+import { visibleProducts, type Product } from "@/data/products";
+import { pinterestGroups, staticGroups } from "@/data/board-groups";
+import { getBoardPins } from "@/lib/pinterest.functions";
 import { site } from "@/data/site";
 import { ProductImage } from "@/components/site/ProductImage";
 import { ThemeToggle } from "@/components/site/ThemeToggle";
@@ -151,10 +154,15 @@ function ProductCard({ p, i, onOpen }: { p: Product; i: number; onOpen: (p: Prod
 
 function Products({ onOpen }: { onOpen: (p: Product) => void }) {
   const ps = visibleProducts();
-  const groups = [...boards]
-    .sort((a, b) => a.order - b.order)
-    .map((b) => ({ ...b, items: ps.filter((p) => p.board === b.id) }))
-    .filter((g) => g.items.length > 0);
+  const q = useQuery({
+    queryKey: ["board-pins"],
+    queryFn: () => getBoardPins(),
+    refetchInterval: 1000 * 60 * 30, // pick up new Pins while the page stays open
+    staleTime: 1000 * 60 * 10,
+  });
+  // Live Pinterest boards when connected; otherwise the list in products.ts.
+  const live = q.data ? pinterestGroups(q.data, ps) : null;
+  const groups = live && live.length > 0 ? live : staticGroups(ps);
   const [openIds, setOpenIds] = useState<string[]>([]);
   const toggle = (id: string) => setOpenIds((o) => (o.includes(id) ? o.filter((x) => x !== id) : [...o, id]));
   return (
