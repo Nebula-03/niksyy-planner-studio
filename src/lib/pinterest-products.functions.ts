@@ -98,6 +98,6 @@ function normalizeUrl(url: string): string {
 
 function firstLine(text: string | null | undefined): string | null {
   if (!text) return null;
-  const line = text.split("\n")[0].trim();
+  const line = (text.split("\n")[0] ?? "").trim();
   return line.length > 140 ? line.slice(0, 137) + "…" : line;
 }
