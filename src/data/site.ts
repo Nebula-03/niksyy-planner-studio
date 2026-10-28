@@ -2,7 +2,7 @@
  * SITE SETTINGS — edit your About text, contact email and manual Pins here.
  */
 export const site = {
-  name: "NiksYY Shop",
+  name: "Niksyy Shop",
   pinterestUrl: "https://in.pinterest.com/niksyymyshop/",
   gumroadUrl: "https://niksyyshop.gumroad.com/",
 
