@@ -26,9 +26,9 @@ const OG_IMAGE = "https://public-files.gumroad.com/0ff13fix7dff61cu22gstr4qi0ca"
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NiksYY Shop — Digital Budget & Savings Planners" },
-      { name: "description", content: "Printable and digital planners for budgeting, paychecks, sinking funds and savings — from NiksYY Shop." },
-      { property: "og:title", content: "NiksYY Shop — Digital Budget & Savings Planners" },
+      { title: "Niksyy Shop — Digital Budget & Savings Planners" },
+      { name: "description", content: "Printable and digital planners for budgeting, paychecks, sinking funds and savings — from Niksyy Shop." },
+      { property: "og:title", content: "Niksyy Shop — Digital Budget & Savings Planners" },
       { property: "og:description", content: "Printable and digital planners for budgeting, paychecks and savings." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -51,7 +51,7 @@ function Nav() {
     <header className="sticky top-0 z-40 border-b bg-background/85 backdrop-blur">
       <nav aria-label="Main" className="mx-auto flex max-w-6xl items-center justify-between px-5 py-3">
         <a href="#top" className="font-display text-2xl font-semibold" style={{ fontFamily: "var(--font-display)" }}>
-          NiksYY<span className="text-accent"> Shop</span>
+          Niksyy<span className="text-accent"> Shop</span>
         </a>
         <ul className="hidden gap-7 md:flex">
           {NAV.map(([l, h]) => (
@@ -92,7 +92,7 @@ function Hero() {
           Plan your money, <em className="text-accent not-italic underline decoration-sage decoration-8 underline-offset-4">gently</em>.
         </h1>
         <p className="mt-5 max-w-md text-lg text-muted-foreground">
-          NiksYY Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
+          Niksyy Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button variant="hero" size="lg" asChild><a href="#products">Browse products</a></Button>
@@ -221,7 +221,7 @@ function Contact() {
           if (!configured) return;
           const f = new FormData(e.currentTarget);
           const body = `From: ${f.get("name")} <${f.get("email")}>\n\n${f.get("message")}`;
-          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("NiksYY Shop enquiry")}&body=${encodeURIComponent(body)}`;
+          window.location.href = `mailto:${site.contactEmail}?subject=${encodeURIComponent("Niksyy Shop enquiry")}&body=${encodeURIComponent(body)}`;
           setSent(true);
         }}
       >

@@ -12,7 +12,7 @@ export const site = {
   /** About section — replace these paragraphs with your own words. */
   aboutTitle: "Hi, welcome to the shop",
   about: [
-    "[Edit me] Write a few sentences about who you are and why you started NiksYY Shop.",
+    "[Edit me] Write a few sentences about who you are and why you started Niksyy Shop.",
     "[Edit me] Share what you love about planning — budgeting, saving, studying — and who your planners are made for.",
   ],
 };
