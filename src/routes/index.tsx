@@ -78,12 +78,12 @@ function Hero() {
     <section id="top" className="relative mx-auto grid max-w-6xl items-center gap-10 overflow-hidden px-5 pt-14 pb-20 md:grid-cols-2 md:pt-20">
       <Sprig className="pointer-events-none absolute -left-4 bottom-0 h-56 text-sage opacity-60 animate-float-b" />
       <div className="relative animate-rise">
-        <p className="font-hand text-3xl text-muted-foreground">a little planner shop ✿</p>
+        <p className="font-hand text-3xl text-muted-foreground">a designer's pinboard ✿</p>
         <h1 className="mt-2 text-5xl md:text-6xl font-semibold leading-[1.05]">
-          Plan your money, <em className="text-accent not-italic underline decoration-sage decoration-8 underline-offset-4">gently</em>.
+          Little things, beautifully made.
         </h1>
         <p className="mt-5 max-w-md text-lg text-muted-foreground">
-          Niksyy Shop is a small digital-planner shop with printable and spreadsheet planners for budgeting, paychecks and savings.
+          niksyy is a creative designer sharing Pins, boards and handmade digital products on Pinterest.
         </p>
         <div className="mt-8 flex flex-wrap gap-3">
           <Button variant="hero" size="lg" asChild><a href="#products">Browse products</a></Button>

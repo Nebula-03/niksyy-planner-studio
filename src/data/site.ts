@@ -12,8 +12,8 @@ export const site = {
   /** About section — replace these paragraphs with your own words. */
   aboutTitle: "Hi, welcome to the shop",
   about: [
-    "[Edit me] Write a few sentences about who you are and why you started Niksyy Shop.",
-    "[Edit me] Share what you love about planning — budgeting, saving, studying — and who your planners are made for.",
+    "I create thoughtful digital planners and printable tools with calm layouts, soft botanical details, and practical everyday structure.",
+    "I also share Pinterest inspiration, planner previews, and new designs for people who enjoy making life feel a little more organized.",
   ],
 };
 
