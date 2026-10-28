@@ -77,7 +77,7 @@ function Nav() {
 }
 
 function Hero() {
-  const ps = visibleProducts();
+  const ps = useProducts();
   const spots = [
     { c: "left-[2%] top-[4%] w-40 md:w-52", r: "-6deg", a: "animate-float-a" },
     { c: "right-[4%] top-[0%] w-36 md:w-48", r: "5deg", a: "animate-float-b" },
@@ -131,7 +131,7 @@ function About() {
 }
 
 function Products({ onOpen }: { onOpen: (p: Product) => void }) {
-  const ps = visibleProducts();
+  const ps = useProducts();
   const tints = ["bg-sage/40", "bg-lilac/40", "bg-coral/30"];
   return (
     <section id="products" aria-labelledby="prod-h" className="bg-muted/60 py-24">
@@ -149,10 +149,14 @@ function Products({ onOpen }: { onOpen: (p: Product) => void }) {
                 <h3 className="text-xl font-semibold leading-snug">
                   <button onClick={() => onOpen(p)} className="text-left hover:underline">{p.name}</button>
                 </h3>
-                <span className="shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">{p.price}</span>
+                {p.price && (
+                  <span className="shrink-0 rounded-full bg-primary px-3 py-1 text-sm font-bold text-primary-foreground">{p.price}</span>
+                )}
               </div>
-              <p className="mt-2 text-muted-foreground">{p.short}</p>
-              <p className="mt-3 text-xs font-semibold uppercase tracking-wide">{p.formats.join(" · ")}</p>
+              {p.short && <p className="mt-2 text-muted-foreground">{p.short}</p>}
+              {p.formats.length > 0 && (
+                <p className="mt-3 text-xs font-semibold uppercase tracking-wide">{p.formats.join(" · ")}</p>
+              )}
               <div className="mt-auto pt-5">
                 <Button variant="coral" className="w-full" asChild>
                   <a href={p.url} target="_blank" rel="noopener noreferrer">View on Gumroad <ExternalLink aria-hidden /></a>
